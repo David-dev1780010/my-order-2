@@ -15,14 +15,14 @@ const Auth = ({ onAuth }) => {
   const handleSubmit = (e) => {
     e.preventDefault();
     if (!username.trim()) {
-      setError('Введите имя пользователя');
+      setError('कृपया वापरकर्तानाव प्रविष्ट करा');
       return;
     }
     if (tab === 1 && !email.trim()) {
-      setError('Введите email');
+      setError('कृपया ईमेल प्रविष्ट करा');
       return;
     }
-    // Сохраняем профиль в localStorage
+    // प्रोफाइल localStorage मध्ये जतन करा
     const profile = { username, email: tab === 1 ? email : '' };
     localStorage.setItem('mahaai_profile', JSON.stringify(profile));
     onAuth(profile);
@@ -35,12 +35,12 @@ const Auth = ({ onAuth }) => {
           MAHA-AI
         </Typography>
         <Tabs value={tab} onChange={handleTabChange} centered sx={{ mb: 2 }}>
-          <Tab label="Вход" />
-          <Tab label="Регистрация" />
+          <Tab label="लॉगिन" />
+          <Tab label="नोंदणी" />
         </Tabs>
         <form onSubmit={handleSubmit}>
           <TextField
-            label="Имя пользователя"
+            label="वापरकर्तानाव"
             value={username}
             onChange={e => setUsername(e.target.value)}
             fullWidth
@@ -49,7 +49,7 @@ const Auth = ({ onAuth }) => {
           />
           {tab === 1 && (
             <TextField
-              label="Email"
+              label="ईमेल"
               value={email}
               onChange={e => setEmail(e.target.value)}
               fullWidth
@@ -59,7 +59,7 @@ const Auth = ({ onAuth }) => {
           )}
           {error && <Typography color="error" variant="body2">{error}</Typography>}
           <Button type="submit" variant="contained" color="primary" fullWidth sx={{ mt: 2 }}>
-            {tab === 0 ? 'Войти' : 'Зарегистрироваться'}
+            {tab === 0 ? 'लॉगिन' : 'नोंदणी करा'}
           </Button>
         </form>
       </Paper>

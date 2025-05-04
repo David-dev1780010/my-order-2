@@ -6,18 +6,18 @@ const Profile = ({ profile, onLogout }) => {
     <Box sx={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', background: '#f5f6fa' }}>
       <Paper elevation={6} sx={{ p: 4, minWidth: 320, maxWidth: 360, textAlign: 'center' }}>
         <Typography variant="h5" gutterBottom>
-          Профиль
+          प्रोफाइल
         </Typography>
         <Typography variant="subtitle1" sx={{ mt: 2 }}>
-          <b>Имя пользователя:</b> {profile.username}
+          <b>वापरकर्तानाव:</b> {profile.username}
         </Typography>
         {profile.email && (
           <Typography variant="subtitle1">
-            <b>Email:</b> {profile.email}
+            <b>ईमेल:</b> {profile.email}
           </Typography>
         )}
         <Button variant="outlined" color="secondary" sx={{ mt: 4 }} onClick={onLogout}>
-          Выйти
+          बाहेर पडा
         </Button>
       </Paper>
     </Box>
