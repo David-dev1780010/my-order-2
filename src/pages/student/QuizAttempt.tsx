@@ -5,7 +5,7 @@ import MainLayout from '@/layouts/MainLayout';
 import TokenDisplay from '@/components/common/TokenDisplay';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Timer, Check, X } from 'lucide-react';
-import { cn } from '@/lib/utils';
+import { cn } from '@/utils';
 import FloatingSymbol from '@/components/animations/FloatingSymbol';
 import FloatingEmoji from '@/components/animations/FloatingEmoji';
 import ScoreBoard from '@/components/quiz/ScoreBoard';
