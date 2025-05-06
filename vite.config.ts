@@ -15,5 +15,16 @@ export default defineConfig(({ mode }) => ({
     alias: {
       "@": path.resolve(__dirname, "./src"),
     },
+    extensions: ['.mjs', '.js', '.ts', '.jsx', '.tsx', '.json']
+  },
+  build: {
+    sourcemap: true,
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          vendor: ['react', 'react-dom', 'react-router-dom'],
+        },
+      },
+    },
   },
 }));
