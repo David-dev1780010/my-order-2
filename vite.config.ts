@@ -27,4 +27,7 @@ export default defineConfig(({ mode }) => ({
       },
     },
   },
+  optimizeDeps: {
+    include: ['@/lib/utils']
+  }
 }));
