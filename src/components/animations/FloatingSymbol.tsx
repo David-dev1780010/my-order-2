@@ -1,7 +1,7 @@
 
 import React, { useEffect, useState } from 'react';
 import { Check, X } from 'lucide-react';
-import { cn } from '@/lib/utils';
+import { cn } from '@/utils';
 
 interface FloatingSymbolProps {
   isCorrect: boolean;

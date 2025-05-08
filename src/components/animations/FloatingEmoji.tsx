@@ -1,7 +1,7 @@
 
 import React, { useEffect, useState } from 'react';
 import { Award, PartyPopper, Star, Trophy, Smile, Sparkles, ThumbsUp, Heart } from 'lucide-react';
-import { cn } from '@/lib/utils';
+import { cn } from '@/utils';
 
 interface FloatingEmojiProps {
   show: boolean;

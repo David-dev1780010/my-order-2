@@ -2,7 +2,7 @@
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { Home, BookOpen, Award, User, Bell, Book } from 'lucide-react';
-import { cn } from '@/lib/utils';
+import { cn } from '@/utils';
 import { useApp } from '@/contexts/AppContext';
 
 const BottomNav: React.FC = () => {
