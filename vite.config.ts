@@ -21,11 +21,6 @@ export default defineConfig({
     modules: {
       localsConvention: 'camelCase',
       generateScopedName: '[name]__[local]___[hash:base64:5]'
-    },
-    preprocessorOptions: {
-      scss: {
-        additionalData: `@import "@/styles/variables.scss";`
-      }
     }
   },
   build: {
@@ -39,8 +34,7 @@ export default defineConfig({
       },
       output: {
         manualChunks: {
-          vendor: ['react', 'react-dom', 'react-router-dom'],
-          styles: ['@/styles/main.scss']
+          vendor: ['react', 'react-dom', 'react-router-dom']
         },
         assetFileNames: 'assets/[name].[hash][extname]'
       },
