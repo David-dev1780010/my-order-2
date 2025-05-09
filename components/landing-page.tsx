@@ -25,54 +25,77 @@ export default function LandingPage({ onStart }: LandingPageProps) {
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-purple-500 to-pink-400">
+    <div className="min-h-screen">
       {/* Hero Section */}
-      <section className="relative w-full max-w-2xl mx-auto bg-white rounded-3xl shadow-2xl p-8 flex flex-col items-center">
-        <div className="w-full flex flex-col items-center">
-          <div className="bg-purple-100 rounded-2xl flex items-center justify-center mb-8 w-48 h-48">
-            <Brain className="w-32 h-32 text-purple-500" />
-          </div>
-          <motion.div
-            className="lg:w-1/2 text-center lg:text-left"
-            initial="hidden"
-            animate="visible"
-            variants={staggerChildren}
-          >
-            <motion.div variants={fadeInUp} className="mb-2">
-              <div className="inline-flex items-center px-3 py-1 rounded-full bg-white/20 backdrop-blur-sm text-white text-sm font-medium mb-4">
-                <Sparkles className="w-4 h-4 mr-2" /> AI-Powered Quiz Platform
+      <section className="relative overflow-hidden maha-ai-gradient py-20 px-4 sm:px-6 lg:px-8">
+        <div className="absolute inset-0 z-0 opacity-20">
+          <div className="absolute top-0 left-0 w-full h-full hero-pattern"></div>
+        </div>
+        <div className="max-w-7xl mx-auto relative z-10">
+          <div className="flex flex-col lg:flex-row items-center justify-between gap-12">
+            <motion.div
+              className="lg:w-1/2 text-center lg:text-left"
+              initial="hidden"
+              animate="visible"
+              variants={staggerChildren}
+            >
+              <motion.div variants={fadeInUp} className="mb-2">
+                <div className="inline-flex items-center px-3 py-1 rounded-full bg-white/20 backdrop-blur-sm text-white text-sm font-medium mb-4">
+                  <Sparkles className="w-4 h-4 mr-2" /> AI-Powered Quiz Platform
+                </div>
+              </motion.div>
+              <motion.h1
+                variants={fadeInUp}
+                className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-6 leading-tight"
+              >
+                Welcome to <span className="text-yellow-300 shine">MAHA-AI</span>
+              </motion.h1>
+              <motion.p variants={fadeInUp} className="text-xl text-white/90 mb-8 max-w-xl mx-auto lg:mx-0">
+                An interactive platform for students to test their knowledge, stay updated with current affairs, and
+                prepare for exams.
+              </motion.p>
+              <motion.div
+                variants={fadeInUp}
+                className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start"
+              >
+                <Button
+                  onClick={onStart}
+                  size="lg"
+                  className="bg-white hover:bg-white/90 text-purple-700 text-lg px-8 py-6 rounded-full shadow-lg hover:shadow-xl transition-all duration-200 transform hover:-translate-y-1 active:translate-y-0 active:scale-95"
+                >
+                  Get Started
+                </Button>
+                <Button
+                  variant="outline"
+                  size="lg"
+                  className="bg-transparent border-2 border-white text-white hover:bg-white/10 text-lg px-8 py-6 rounded-full transition-all duration-200 transform hover:-translate-y-1 active:translate-y-0 active:scale-95"
+                >
+                  Learn More
+                </Button>
+              </motion.div>
+            </motion.div>
+            <motion.div
+              className="lg:w-1/2 flex justify-center"
+              initial={{ opacity: 0, scale: 0.8 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.3 }}
+            >
+              <div className="relative w-full max-w-xl mx-auto">
+                <div className="absolute -inset-0.5 bg-gradient-to-r from-pink-500 to-purple-500 rounded-[48px] blur opacity-30 animate-pulse"></div>
+                <div className="relative bg-white p-8 rounded-[48px] shadow-2xl w-full">
+                  <div className="w-full h-64 bg-purple-100 rounded-[32px] mb-6 overflow-hidden flex items-center justify-center">
+                    <Brain className="w-32 h-32 text-purple-500 floating" />
+                  </div>
+                  <div className="space-y-4">
+                    <div className="h-6 bg-purple-100 rounded-full w-3/4"></div>
+                    <div className="h-4 bg-purple-100 rounded-full"></div>
+                    <div className="h-4 bg-purple-100 rounded-full w-5/6"></div>
+                    <div className="h-10 bg-purple-500 rounded-full mt-6"></div>
+                  </div>
+                </div>
               </div>
             </motion.div>
-            <motion.h1
-              variants={fadeInUp}
-              className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-6 leading-tight"
-            >
-              Welcome to <span className="text-yellow-300 shine">MAHA-AI</span>
-            </motion.h1>
-            <motion.p variants={fadeInUp} className="text-xl text-white/90 mb-8 max-w-xl mx-auto lg:mx-0">
-              An interactive platform for students to test their knowledge, stay updated with current affairs, and
-              prepare for exams.
-            </motion.p>
-            <motion.div
-              variants={fadeInUp}
-              className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start"
-            >
-              <Button
-                onClick={onStart}
-                size="lg"
-                className="bg-white hover:bg-white/90 text-purple-700 text-lg px-8 py-6 rounded-full shadow-lg hover:shadow-xl transition-all duration-200 transform hover:-translate-y-1 active:translate-y-0 active:scale-95"
-              >
-                Get Started
-              </Button>
-              <Button
-                variant="outline"
-                size="lg"
-                className="bg-transparent border-2 border-white text-white hover:bg-white/10 text-lg px-8 py-6 rounded-full transition-all duration-200 transform hover:-translate-y-1 active:translate-y-0 active:scale-95"
-              >
-                Learn More
-              </Button>
-            </motion.div>
-          </motion.div>
+          </div>
         </div>
       </section>
 
