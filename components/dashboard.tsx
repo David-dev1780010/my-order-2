@@ -19,9 +19,6 @@ interface DashboardProps {
 
 type View = "main" | "test" | "events" | "tokens" | "leaderboard" | "profile" | "sponsors"
 
-const LOCAL_STORAGE_KEY = "telegram_quiz_user_data"
-const USERS_STORAGE_KEY = "telegram_quiz_all_users"
-
 export default function Dashboard({ user, setUser }: DashboardProps) {
   const [currentView, setCurrentView] = useState<View>("main")
   const [showNotification, setShowNotification] = useState(true)
@@ -45,22 +42,6 @@ export default function Dashboard({ user, setUser }: DashboardProps) {
       }
     }
   }, [currentView])
-
-  // Сохраняем токены пользователя при каждом их изменении
-  useEffect(() => {
-    if (user && typeof user.tokens === "number") {
-      localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(user))
-      // Также обновляем пользователя в общем списке
-      const allUsers = JSON.parse(localStorage.getItem(USERS_STORAGE_KEY) || "[]")
-      const existingUserIndex = allUsers.findIndex((u: any) => u.id === user.id)
-      if (existingUserIndex >= 0) {
-        allUsers[existingUserIndex] = user
-      } else {
-        allUsers.push(user)
-      }
-      localStorage.setItem(USERS_STORAGE_KEY, JSON.stringify(allUsers))
-    }
-  }, [user?.tokens])
 
   const renderView = () => {
     switch (currentView) {
