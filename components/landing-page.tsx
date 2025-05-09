@@ -82,8 +82,8 @@ export default function LandingPage({ onStart }: LandingPageProps) {
             >
               <div className="relative">
                 <div className="absolute -inset-0.5 bg-gradient-to-r from-pink-500 to-purple-500 rounded-3xl blur opacity-30 animate-pulse"></div>
-                <div className="relative bg-white p-6 rounded-3xl shadow-2xl flex flex-col items-center" style={{ width: '220px', height: '600px', minHeight: '70vh', justifyContent: 'flex-start' }}>
-                  <div className="w-full" style={{ height: '220px', background: '#ede9fe', borderRadius: '32px', marginBottom: '32px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                <div className="relative bg-white p-6 rounded-3xl shadow-2xl flex flex-col items-center" style={{ width: '160px', height: '92vh', minHeight: '700px', justifyContent: 'flex-start' }}>
+                  <div className="w-full" style={{ height: '200px', background: '#ede9fe', borderRadius: '32px', marginBottom: '32px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                     <Brain className="w-24 h-24 text-purple-500 floating" />
                   </div>
                   <div className="space-y-4 w-full flex flex-col items-center">
