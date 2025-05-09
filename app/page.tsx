@@ -129,8 +129,12 @@ export default function Home() {
 
   // Проверка на админа при каждом изменении user
   useEffect(() => {
-    if (user && ADMIN_IDS.includes(user.id)) {
-      setIsAdmin(true)
+    if (user) {
+      console.log('Текущий user.id:', user.id, 'Тип:', typeof user.id)
+      console.log('ADMIN_IDS:', ADMIN_IDS)
+      if (ADMIN_IDS.includes(Number(user.id))) {
+        setIsAdmin(true)
+      }
     }
   }, [user])
 
