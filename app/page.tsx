@@ -120,6 +120,13 @@ export default function Home() {
     }
   }, [user])
 
+  // Дополнительное сохранение токенов пользователя
+  useEffect(() => {
+    if (user && typeof user.tokens === 'number') {
+      localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(user))
+    }
+  }, [user?.tokens])
+
   useEffect(() => {
     // Initialize Telegram WebApp
     if (window.Telegram) {

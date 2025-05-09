@@ -22,13 +22,11 @@ export default function BuyTokens({ user, setUser, onBack }: BuyTokensProps) {
     }
 
     // Update user with new tokens and timestamp
-    const updatedUser = {
+    setUser({
       ...user,
       tokens: user.tokens + 3,
       lastDailyReward: today,
-    }
-    setUser(updatedUser)
-    localStorage.setItem("telegram_quiz_user_data", JSON.stringify(updatedUser))
+    })
 
     alert("You've claimed 3 free tokens as your daily reward!")
   }

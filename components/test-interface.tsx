@@ -172,13 +172,6 @@ export default function TestInterface({ user, setUser, classLevel, subject, onCo
         averageScore: user.averageScore ? Math.round((user.averageScore + score) / 2) : score,
         bestSubject: !user.bestSubject ? subject : user.bestSubject,
       })
-      localStorage.setItem("telegram_quiz_user_data", JSON.stringify({
-        ...user,
-        tokens: remainingTokens,
-        testsCompleted: (user.testsCompleted || 0) + 1,
-        averageScore: user.averageScore ? Math.round((user.averageScore + score) / 2) : score,
-        bestSubject: !user.bestSubject ? subject : user.bestSubject,
-      }))
 
       return
     }
