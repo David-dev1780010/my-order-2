@@ -74,27 +74,6 @@ export default function LandingPage({ onStart }: LandingPageProps) {
                 </Button>
               </motion.div>
             </motion.div>
-            <motion.div
-              className="lg:w-1/2 flex justify-center"
-              initial={{ opacity: 0, scale: 0.8 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 0.3 }}
-            >
-              <div className="relative w-[600px] min-w-[500px] mx-auto">
-                <div className="absolute -inset-0.5 bg-gradient-to-r from-pink-500 to-purple-500 rounded-[48px] blur opacity-30 animate-pulse"></div>
-                <div className="relative bg-white p-8 rounded-[48px] shadow-2xl w-full">
-                  <div className="w-full h-64 bg-purple-100 rounded-[32px] mb-6 overflow-hidden flex items-center justify-center">
-                    <Brain className="w-32 h-32 text-purple-500 floating" />
-                  </div>
-                  <div className="space-y-4">
-                    <div className="h-6 bg-purple-100 rounded-full w-3/4"></div>
-                    <div className="h-4 bg-purple-100 rounded-full"></div>
-                    <div className="h-4 bg-purple-100 rounded-full w-5/6"></div>
-                    <div className="h-10 bg-purple-500 rounded-full mt-6"></div>
-                  </div>
-                </div>
-              </div>
-            </motion.div>
           </div>
         </div>
       </section>
