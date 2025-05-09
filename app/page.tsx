@@ -74,7 +74,7 @@ export default function Home() {
 
   // Save user data to localStorage whenever it changes
   useEffect(() => {
-    if (user && user.registered) {
+    if (user) {
       localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(user))
 
       // Also update the user in the all users list
@@ -123,6 +123,7 @@ export default function Home() {
                 photo_url: telegramUser.photo_url,
               })
               setShowLanding(false)
+              setShowRegistration(!parsedUser.registered)
               setLoading(false)
               return
             }
@@ -140,17 +141,35 @@ export default function Home() {
           photo_url: telegramUser.photo_url,
           tokens: 5, // Give new users 5 free tokens
         })
+        setShowLanding(false)
+        setShowRegistration(true)
         setLoading(false)
       } else {
         // If running outside Telegram, create a regular user by default
         const mockUserId = 123456789 // Regular user ID (not in admin list)
         setIsAdmin(ADMIN_IDS.includes(mockUserId))
 
+        const savedUserData = localStorage.getItem(LOCAL_STORAGE_KEY)
+        if (savedUserData) {
+          try {
+            const parsedUser = JSON.parse(savedUserData)
+            setUser(parsedUser)
+            setShowLanding(false)
+            setShowRegistration(!parsedUser.registered)
+            setLoading(false)
+            return
+          } catch (e) {
+            console.error("Error parsing saved user data", e)
+          }
+        }
+
         setUser({
           id: mockUserId,
           first_name: "Test User",
           tokens: 5,
         })
+        setShowLanding(false)
+        setShowRegistration(true)
         setLoading(false)
       }
     } else {
@@ -158,11 +177,27 @@ export default function Home() {
       const mockUserId = 123456789 // Regular user ID (not in admin list)
       setIsAdmin(ADMIN_IDS.includes(mockUserId))
 
+      const savedUserData = localStorage.getItem(LOCAL_STORAGE_KEY)
+      if (savedUserData) {
+        try {
+          const parsedUser = JSON.parse(savedUserData)
+          setUser(parsedUser)
+          setShowLanding(false)
+          setShowRegistration(!parsedUser.registered)
+          setLoading(false)
+          return
+        } catch (e) {
+          console.error("Error parsing saved user data", e)
+        }
+      }
+
       setUser({
         id: mockUserId,
         first_name: "Test User",
         tokens: 5,
       })
+      setShowLanding(false)
+      setShowRegistration(true)
       setLoading(false)
     }
   }, [])
