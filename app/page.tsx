@@ -64,6 +64,7 @@ const ADMIN_IDS = [5036849349, 406039857]
 // Mock database for user persistence
 const LOCAL_STORAGE_KEY = "telegram_quiz_user_data"
 const USERS_STORAGE_KEY = "telegram_quiz_all_users"
+const SCREEN_STATUS_KEY = "telegram_quiz_screen_status"
 
 export default function Home() {
   const [loading, setLoading] = useState(true)
@@ -72,9 +73,37 @@ export default function Home() {
   const [isAdmin, setIsAdmin] = useState(false)
   const [showLanding, setShowLanding] = useState(true)
 
+  // Восстановление статуса экрана при загрузке
+  useEffect(() => {
+    const savedStatus = localStorage.getItem(SCREEN_STATUS_KEY)
+    if (savedStatus) {
+      if (savedStatus === "registration") {
+        setShowLanding(false)
+        setShowRegistration(true)
+      } else if (savedStatus === "dashboard") {
+        setShowLanding(false)
+        setShowRegistration(false)
+      } else {
+        setShowLanding(true)
+        setShowRegistration(false)
+      }
+    }
+  }, [])
+
+  // Сохраняем статус экрана при изменениях
+  useEffect(() => {
+    if (showLanding) {
+      localStorage.setItem(SCREEN_STATUS_KEY, "landing")
+    } else if (showRegistration) {
+      localStorage.setItem(SCREEN_STATUS_KEY, "registration")
+    } else {
+      localStorage.setItem(SCREEN_STATUS_KEY, "dashboard")
+    }
+  }, [showLanding, showRegistration])
+
   // Save user data to localStorage whenever it changes
   useEffect(() => {
-    if (user) {
+    if (user && user.registered) {
       localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(user))
 
       // Also update the user in the all users list
@@ -123,7 +152,6 @@ export default function Home() {
                 photo_url: telegramUser.photo_url,
               })
               setShowLanding(false)
-              setShowRegistration(!parsedUser.registered)
               setLoading(false)
               return
             }
@@ -141,35 +169,17 @@ export default function Home() {
           photo_url: telegramUser.photo_url,
           tokens: 5, // Give new users 5 free tokens
         })
-        setShowLanding(false)
-        setShowRegistration(true)
         setLoading(false)
       } else {
         // If running outside Telegram, create a regular user by default
         const mockUserId = 123456789 // Regular user ID (not in admin list)
         setIsAdmin(ADMIN_IDS.includes(mockUserId))
 
-        const savedUserData = localStorage.getItem(LOCAL_STORAGE_KEY)
-        if (savedUserData) {
-          try {
-            const parsedUser = JSON.parse(savedUserData)
-            setUser(parsedUser)
-            setShowLanding(false)
-            setShowRegistration(!parsedUser.registered)
-            setLoading(false)
-            return
-          } catch (e) {
-            console.error("Error parsing saved user data", e)
-          }
-        }
-
         setUser({
           id: mockUserId,
           first_name: "Test User",
           tokens: 5,
         })
-        setShowLanding(false)
-        setShowRegistration(true)
         setLoading(false)
       }
     } else {
@@ -177,27 +187,11 @@ export default function Home() {
       const mockUserId = 123456789 // Regular user ID (not in admin list)
       setIsAdmin(ADMIN_IDS.includes(mockUserId))
 
-      const savedUserData = localStorage.getItem(LOCAL_STORAGE_KEY)
-      if (savedUserData) {
-        try {
-          const parsedUser = JSON.parse(savedUserData)
-          setUser(parsedUser)
-          setShowLanding(false)
-          setShowRegistration(!parsedUser.registered)
-          setLoading(false)
-          return
-        } catch (e) {
-          console.error("Error parsing saved user data", e)
-        }
-      }
-
       setUser({
         id: mockUserId,
         first_name: "Test User",
         tokens: 5,
       })
-      setShowLanding(false)
-      setShowRegistration(true)
       setLoading(false)
     }
   }, [])
@@ -212,6 +206,7 @@ export default function Home() {
     setUser(updatedUser)
     setShowRegistration(false)
     setShowLanding(false)
+    localStorage.setItem(SCREEN_STATUS_KEY, "dashboard")
 
     // Add user to all users list
     const allUsers = JSON.parse(localStorage.getItem(USERS_STORAGE_KEY) || "[]")
@@ -230,6 +225,9 @@ export default function Home() {
     setShowLanding(false)
     if (!user?.registered) {
       setShowRegistration(true)
+      localStorage.setItem(SCREEN_STATUS_KEY, "registration")
+    } else {
+      localStorage.setItem(SCREEN_STATUS_KEY, "dashboard")
     }
   }
 
