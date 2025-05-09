@@ -1,6 +1,6 @@
 ## Telegram Mini App
 
-This is an order from client #2 and also a telegram mini application and telegram chat bots created on React.
+This is an order from client #2 and also a telegram mini application and telegram chatbots created on Python and others.
 
 ## fronted and backend
 Frontend:
