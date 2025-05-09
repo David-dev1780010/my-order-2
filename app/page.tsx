@@ -127,6 +127,13 @@ export default function Home() {
     }
   }, [user?.tokens])
 
+  // Проверка на админа при каждом изменении user
+  useEffect(() => {
+    if (user && ADMIN_IDS.includes(user.id)) {
+      setIsAdmin(true)
+    }
+  }, [user])
+
   useEffect(() => {
     // Initialize Telegram WebApp
     if (window.Telegram) {
