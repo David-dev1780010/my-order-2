@@ -84,7 +84,7 @@ const mockQuestions = [
 export default function TestInterface({ user, setUser, classLevel, subject, onComplete, onBack }: TestInterfaceProps) {
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0)
   const [selectedAnswer, setSelectedAnswer] = useState<string | null>(null)
-  const [answers, setAnswers] = useState<(string | null)[]>(Array(mockQuestions.length).fill(null))
+  const [answers, setAnswers] = useState<(string | null)[]>(Array(user.tokens).fill(null))
   const [timeLeft, setTimeLeft] = useState(10)
   const [showAd, setShowAd] = useState(false)
   const [testComplete, setTestComplete] = useState(false)
@@ -94,8 +94,11 @@ export default function TestInterface({ user, setUser, classLevel, subject, onCo
 
   const timerRef = useRef<NodeJS.Timeout | null>(null)
 
+  // Получаем только нужное количество вопросов
+  const availableQuestions = mockQuestions.slice(0, user.tokens)
+
   // Current question
-  const currentQuestion = mockQuestions[currentQuestionIndex]
+  const currentQuestion = availableQuestions[currentQuestionIndex]
 
   // Setup timer
   useEffect(() => {
@@ -118,8 +121,8 @@ export default function TestInterface({ user, setUser, classLevel, subject, onCo
 
   // Update progress
   useEffect(() => {
-    setProgress((currentQuestionIndex / mockQuestions.length) * 100)
-  }, [currentQuestionIndex])
+    setProgress((currentQuestionIndex / availableQuestions.length) * 100)
+  }, [currentQuestionIndex, availableQuestions.length])
 
   // Handle answer selection
   const handleAnswerSelect = (answer: string) => {
@@ -146,12 +149,12 @@ export default function TestInterface({ user, setUser, classLevel, subject, onCo
     }
 
     // Check if test is complete
-    if (currentQuestionIndex >= mockQuestions.length - 1) {
+    if (currentQuestionIndex >= availableQuestions.length - 1) {
       setTestComplete(true)
 
       // Update user stats
-      const correctAnswers = answers.filter((answer, index) => answer === mockQuestions[index]?.correctAnswer).length
-      const score = Math.round((correctAnswers / mockQuestions.length) * 100)
+      const correctAnswers = answers.filter((answer, index) => answer === availableQuestions[index]?.correctAnswer).length
+      const score = Math.round((correctAnswers / availableQuestions.length) * 100)
 
       // Add user to leaderboard data
       const leaderboardData = JSON.parse(localStorage.getItem("leaderboard_data") || "[]")
@@ -203,7 +206,7 @@ export default function TestInterface({ user, setUser, classLevel, subject, onCo
 
   // Render test results
   if (testComplete) {
-    return <TestResults answers={answers} questions={mockQuestions} onBack={onComplete} />
+    return <TestResults answers={answers} questions={availableQuestions} onBack={onComplete} />
   }
 
   // Render out of tokens message
@@ -242,7 +245,7 @@ export default function TestInterface({ user, setUser, classLevel, subject, onCo
           <ArrowLeft className="h-6 w-6" />
         </Button>
         <h1 className="text-2xl font-bold text-gray-800">
-          {subject} - Question {currentQuestionIndex + 1}/{mockQuestions.length}
+          {subject} - Question {currentQuestionIndex + 1}/{availableQuestions.length}
         </h1>
         <div className="rounded-full bg-white/60 backdrop-blur-sm px-4 py-2 text-lg font-medium text-gray-800 border border-white/30">
           {remainingTokens} Tokens

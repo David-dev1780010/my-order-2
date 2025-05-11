@@ -58,11 +58,11 @@ export default function TestResults({ answers, questions, onBack }: TestResultsP
       animate={{ opacity: 1, scale: 1 }}
       transition={{ duration: 0.5 }}
     >
-      <h1 className="text-3xl font-bold text-center text-gray-800 mb-4">Test Results</h1>
+      <h1 className="text-3xl font-bold text-center text-gray-800 mb-4">Результаты теста</h1>
 
       <Card className="border-0 shadow-2xl bg-white/80 backdrop-blur-sm maha-ai-card border border-white/50 overflow-hidden">
         <CardHeader className="pb-2">
-          <CardTitle className="text-center text-3xl maha-ai-text-gradient">Your Score: {score}%</CardTitle>
+          <CardTitle className="text-center text-3xl maha-ai-text-gradient">Ваш результат: {score}%</CardTitle>
         </CardHeader>
         <CardContent>
           <motion.div
@@ -72,7 +72,7 @@ export default function TestResults({ answers, questions, onBack }: TestResultsP
             transition={{ delay: 0.2 }}
           >
             <div className="text-5xl font-bold maha-ai-text-gradient">{correctAnswers}</div>
-            <div className="text-xl text-muted-foreground">correct out of {questions.length}</div>
+            <div className="text-xl text-muted-foreground">правильных из {questions.length}</div>
           </motion.div>
 
           <div className="space-y-4">
@@ -100,23 +100,22 @@ export default function TestResults({ answers, questions, onBack }: TestResultsP
                   )}
                 </div>
                 <div className="mt-3 text-lg">
-                  <div className="text-muted-foreground">Your answer: {answers[index] || "No answer"}</div>
-                  <div className="font-medium text-green-600">Correct answer: {question.correctAnswer}</div>
+                  <div className="text-muted-foreground">Ваш ответ: {answers[index] || "Нет ответа"}</div>
+                  <div className="font-medium text-green-600">Правильный ответ: {question.correctAnswer}</div>
                 </div>
               </motion.div>
             ))}
           </div>
         </CardContent>
         <CardFooter>
-          <Button
-            className="w-full h-14 text-xl font-medium maha-ai-button rounded-xl"
-            onClick={onBack}
-            whileHover={{ scale: 1.03 }}
-            whileTap={{ scale: 0.97 }}
-            as={motion.button}
-          >
-            Back to Dashboard
-          </Button>
+          <motion.div className="w-full">
+            <Button
+              className="w-full h-14 text-xl font-medium maha-ai-button rounded-xl"
+              onClick={onBack}
+            >
+              Вернуться к панели управления
+            </Button>
+          </motion.div>
         </CardFooter>
       </Card>
     </motion.div>

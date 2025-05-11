@@ -17,18 +17,32 @@ export default function BuyTokens({ user, setUser, onBack }: BuyTokensProps) {
     const today = new Date().toISOString().split("T")[0]
 
     if (user.lastDailyReward === today) {
-      alert("You've already claimed your daily reward today. Come back tomorrow!")
+      alert("Вы уже получили ежедневную награду сегодня. Приходите завтра!")
       return
     }
 
     // Update user with new tokens and timestamp
-    setUser({
+    const updatedUser = {
       ...user,
       tokens: user.tokens + 3,
       lastDailyReward: today,
-    })
+    }
 
-    alert("You've claimed 3 free tokens as your daily reward!")
+    // Сохраняем обновленные данные пользователя
+    setUser(updatedUser)
+    
+    // Сохраняем в localStorage
+    localStorage.setItem("telegram_quiz_user_data", JSON.stringify(updatedUser))
+    
+    // Обновляем данные в общем списке пользователей
+    const allUsers = JSON.parse(localStorage.getItem("telegram_quiz_all_users") || "[]")
+    const userIndex = allUsers.findIndex((u: any) => u.id === user.id)
+    if (userIndex !== -1) {
+      allUsers[userIndex] = updatedUser
+      localStorage.setItem("telegram_quiz_all_users", JSON.stringify(allUsers))
+    }
+
+    alert("Вы получили 3 бесплатных токена в качестве ежедневной награды!")
   }
 
   const canClaimDaily = () => {

@@ -55,7 +55,7 @@ type UserState = {
   testsCompleted?: number
   averageScore?: number
   bestSubject?: string
-  lastDailyReward?: string
+  lastDailyReward?: string | null
 }
 
 // Admin user IDs - these are the only users who should have access to the admin panel
@@ -161,7 +161,7 @@ export default function Home() {
             const parsedUser = JSON.parse(savedUserData)
             // Verify it's the same user
             if (parsedUser.id === telegramUser.id) {
-              // Update with latest Telegram data
+              // Update with latest Telegram data but preserve tokens and other important data
               setUser({
                 ...parsedUser,
                 first_name: telegramUser.first_name,
@@ -179,25 +179,25 @@ export default function Home() {
         }
 
         // If no saved data or different user, create new user
-        setUser({
+        const newUser: UserState = {
           id: telegramUser.id,
           first_name: telegramUser.first_name,
           last_name: telegramUser.last_name,
           username: telegramUser.username,
           photo_url: telegramUser.photo_url,
           tokens: 5, // Give new users 5 free tokens
-        })
-        setLoading(false)
-      } else {
-        // If running outside Telegram, create a regular user by default
-        const mockUserId = 123456789 // Regular user ID (not in admin list)
-        setIsAdmin(ADMIN_IDS.includes(mockUserId))
-
-        setUser({
-          id: mockUserId,
-          first_name: "Test User",
-          tokens: 5,
-        })
+          lastDailyReward: null, // Initialize lastDailyReward as null
+        }
+        
+        setUser(newUser)
+        // Save new user data
+        localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(newUser))
+        
+        // Add to all users list
+        const allUsers = JSON.parse(localStorage.getItem(USERS_STORAGE_KEY) || "[]")
+        allUsers.push(newUser)
+        localStorage.setItem(USERS_STORAGE_KEY, JSON.stringify(allUsers))
+        
         setLoading(false)
       }
     } else {
@@ -205,11 +205,15 @@ export default function Home() {
       const mockUserId = 123456789 // Regular user ID (not in admin list)
       setIsAdmin(ADMIN_IDS.includes(mockUserId))
 
-      setUser({
+      const mockUser: UserState = {
         id: mockUserId,
         first_name: "Test User",
         tokens: 5,
-      })
+        lastDailyReward: null,
+      }
+      
+      setUser(mockUser)
+      localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(mockUser))
       setLoading(false)
     }
   }, [])

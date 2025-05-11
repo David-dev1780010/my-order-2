@@ -73,13 +73,13 @@ export default function TestSelection({ user, setUser, onBack }: TestSelectionPr
   const availableSubjects = classLevel ? subjects[classLevel as keyof typeof subjects] || [] : []
 
   // Test details
-  const testQuestions = 10
-  const requiredTokens = testQuestions // 1 token = 1 question
+  const testQuestions = user.tokens // Количество вопросов равно количеству токенов
+  const requiredTokens = testQuestions // 1 токен = 1 вопрос
 
   const handleStartTest = () => {
-    // Check if user has enough tokens
-    if (user.tokens < requiredTokens) {
-      alert("You don't have enough tokens to start this test.")
+    // Проверяем, есть ли у пользователя хотя бы 1 токен
+    if (user.tokens < 1) {
+      alert("У вас недостаточно токенов для начала теста.")
       return
     }
 
