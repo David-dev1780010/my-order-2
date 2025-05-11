@@ -77,9 +77,9 @@ export default function TestSelection({ user, setUser, onBack }: TestSelectionPr
   const requiredTokens = testQuestions // 1 токен = 1 вопрос
 
   const handleStartTest = () => {
-    // Проверяем, есть ли у пользователя хотя бы 1 токен
+    // Check if user has at least 1 token
     if (user.tokens < 1) {
-      alert("У вас недостаточно токенов для начала теста.")
+      alert("You don't have enough tokens to start the test.")
       return
     }
 

@@ -17,70 +17,6 @@ interface TestInterfaceProps {
   onBack: () => void
 }
 
-// Mock questions data
-const mockQuestions = [
-  {
-    id: 1,
-    question: "What is 2 + 2?",
-    options: ["3", "4", "5", "6"],
-    correctAnswer: "4",
-  },
-  {
-    id: 2,
-    question: "Which planet is closest to the sun?",
-    options: ["Earth", "Venus", "Mercury", "Mars"],
-    correctAnswer: "Mercury",
-  },
-  {
-    id: 3,
-    question: "What is the capital of France?",
-    options: ["London", "Berlin", "Madrid", "Paris"],
-    correctAnswer: "Paris",
-  },
-  {
-    id: 4,
-    question: "How many sides does a triangle have?",
-    options: ["2", "3", "4", "5"],
-    correctAnswer: "3",
-  },
-  {
-    id: 5,
-    question: "Which of these is not a primary color?",
-    options: ["Red", "Blue", "Green", "Yellow"],
-    correctAnswer: "Green",
-  },
-  {
-    id: 6,
-    question: "What is the chemical symbol for water?",
-    options: ["Wa", "H2O", "O2H", "WO"],
-    correctAnswer: "H2O",
-  },
-  {
-    id: 7,
-    question: "Who wrote 'Romeo and Juliet'?",
-    options: ["Charles Dickens", "William Shakespeare", "Jane Austen", "Mark Twain"],
-    correctAnswer: "William Shakespeare",
-  },
-  {
-    id: 8,
-    question: "What is the largest mammal?",
-    options: ["Elephant", "Blue Whale", "Giraffe", "Hippopotamus"],
-    correctAnswer: "Blue Whale",
-  },
-  {
-    id: 9,
-    question: "How many continents are there?",
-    options: ["5", "6", "7", "8"],
-    correctAnswer: "7",
-  },
-  {
-    id: 10,
-    question: "What is the square root of 64?",
-    options: ["6", "8", "10", "12"],
-    correctAnswer: "8",
-  },
-]
-
 export default function TestInterface({ user, setUser, classLevel, subject, onComplete, onBack }: TestInterfaceProps) {
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0)
   const [selectedAnswer, setSelectedAnswer] = useState<string | null>(null)
@@ -91,11 +27,21 @@ export default function TestInterface({ user, setUser, classLevel, subject, onCo
   const [outOfTokens, setOutOfTokens] = useState(false)
   const [remainingTokens, setRemainingTokens] = useState(user.tokens)
   const [progress, setProgress] = useState(0)
+  const [questions, setQuestions] = useState<any[]>([])
 
   const timerRef = useRef<NodeJS.Timeout | null>(null)
 
-  // Получаем только нужное количество вопросов
-  const availableQuestions = mockQuestions.slice(0, user.tokens)
+  // Load questions from localStorage
+  useEffect(() => {
+    const storedQuestions = JSON.parse(localStorage.getItem("quiz_questions") || "[]")
+    const filteredQuestions = storedQuestions.filter(
+      (q: any) => q.class === classLevel && q.subject === subject
+    )
+    setQuestions(filteredQuestions)
+  }, [classLevel, subject])
+
+  // Get available questions based on tokens
+  const availableQuestions = questions.slice(0, user.tokens)
 
   // Current question
   const currentQuestion = availableQuestions[currentQuestionIndex]
@@ -260,41 +206,54 @@ export default function TestInterface({ user, setUser, classLevel, subject, onCo
         <span className="text-lg font-medium min-w-[40px] text-gray-800">{timeLeft}s</span>
       </div>
 
-      <Card className="border-0 shadow-2xl bg-white/80 backdrop-blur-sm maha-ai-card border border-white/50">
-        <CardHeader className="pb-2">
-          <CardTitle className="text-2xl">{currentQuestion.question}</CardTitle>
-        </CardHeader>
-        <CardContent className="space-y-4 pt-4">
-          <AnimatePresence mode="wait">
-            {currentQuestion.options.map((option, index) => (
-              <motion.div
-                key={index}
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.2, delay: index * 0.1 }}
-                whileHover={{ scale: 1.02 }}
-                whileTap={{ scale: 0.98 }}
-                className="quiz-option"
-              >
-                <Button
-                  variant={selectedAnswer === option ? "default" : "outline"}
-                  className={`w-full justify-start text-left h-14 text-lg rounded-xl ${
-                    selectedAnswer === option ? "maha-ai-button" : "border-2"
-                  } ${selectedAnswer === option ? "selected" : ""}`}
-                  onClick={() => handleAnswerSelect(option)}
+      {currentQuestion ? (
+        <Card className="border-0 shadow-2xl bg-white/80 backdrop-blur-sm maha-ai-card border border-white/50">
+          <CardHeader className="pb-2">
+            <CardTitle className="text-2xl">{currentQuestion.question}</CardTitle>
+          </CardHeader>
+          <CardContent className="space-y-4 pt-4">
+            <AnimatePresence mode="wait">
+              {currentQuestion.options.map((option: string, index: number) => (
+                <motion.div
+                  key={index}
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.2, delay: index * 0.1 }}
+                  whileHover={{ scale: 1.02 }}
+                  whileTap={{ scale: 0.98 }}
+                  className="quiz-option"
                 >
-                  {option}
-                </Button>
-              </motion.div>
-            ))}
-          </AnimatePresence>
-        </CardContent>
-        <CardFooter>
-          <Button className="w-full h-14 text-lg font-medium maha-ai-button rounded-xl" onClick={handleNextQuestion}>
-            Next Question
-          </Button>
-        </CardFooter>
-      </Card>
+                  <Button
+                    variant={selectedAnswer === option ? "default" : "outline"}
+                    className={`w-full justify-start text-left h-14 text-lg rounded-xl ${
+                      selectedAnswer === option ? "maha-ai-button" : "border-2"
+                    } ${selectedAnswer === option ? "selected" : ""}`}
+                    onClick={() => handleAnswerSelect(option)}
+                  >
+                    {option}
+                  </Button>
+                </motion.div>
+              ))}
+            </AnimatePresence>
+          </CardContent>
+          <CardFooter>
+            <Button className="w-full h-14 text-lg font-medium maha-ai-button rounded-xl" onClick={handleNextQuestion}>
+              Next Question
+            </Button>
+          </CardFooter>
+        </Card>
+      ) : (
+        <Card className="border-0 shadow-2xl bg-white/80 backdrop-blur-sm maha-ai-card border border-white/50">
+          <CardHeader>
+            <CardTitle className="text-2xl text-center">No questions available for this subject</CardTitle>
+          </CardHeader>
+          <CardFooter>
+            <Button className="w-full h-14 text-lg font-medium maha-ai-button rounded-xl" onClick={onBack}>
+              Back to Selection
+            </Button>
+          </CardFooter>
+        </Card>
+      )}
 
       <div className="w-full bg-white/30 rounded-full h-3 overflow-hidden">
         <div className="maha-ai-progress-bar h-full" style={{ width: `${progress}%` }} />
