@@ -213,7 +213,145 @@ function QuestionManager() {
   // Load questions from storage
   useEffect(() => {
     const storedQuestions = JSON.parse(localStorage.getItem("quiz_questions") || "[]")
-    setQuestions(storedQuestions)
+    if (storedQuestions.length === 0) {
+      // Add sample questions if none exist
+      const sampleQuestions = [
+        // Math questions for different classes
+        {
+          id: 1,
+          class: "1",
+          subject: "Math",
+          question: "What is 2 + 3?",
+          options: ["4", "5", "6", "7"],
+          correctAnswer: "5",
+        },
+        {
+          id: 2,
+          class: "2",
+          subject: "Math",
+          question: "What is 5 × 4?",
+          options: ["15", "20", "25", "30"],
+          correctAnswer: "20",
+        },
+        {
+          id: 3,
+          class: "3",
+          subject: "Math",
+          question: "What is 12 ÷ 3?",
+          options: ["3", "4", "5", "6"],
+          correctAnswer: "4",
+        },
+        // Science questions
+        {
+          id: 4,
+          class: "1",
+          subject: "Science",
+          question: "Which animal lives in water?",
+          options: ["Dog", "Cat", "Fish", "Bird"],
+          correctAnswer: "Fish",
+        },
+        {
+          id: 5,
+          class: "2",
+          subject: "Science",
+          question: "What do plants need to grow?",
+          options: ["Water", "Candy", "Toys", "Books"],
+          correctAnswer: "Water",
+        },
+        // History questions
+        {
+          id: 6,
+          class: "3",
+          subject: "History",
+          question: "Who was the first President of the United States?",
+          options: ["Thomas Jefferson", "George Washington", "Abraham Lincoln", "John Adams"],
+          correctAnswer: "George Washington",
+        },
+        {
+          id: 7,
+          class: "4",
+          subject: "History",
+          question: "In which year did World War II end?",
+          options: ["1943", "1944", "1945", "1946"],
+          correctAnswer: "1945",
+        },
+        // Geography questions
+        {
+          id: 8,
+          class: "3",
+          subject: "Geography",
+          question: "What is the capital of France?",
+          options: ["London", "Berlin", "Paris", "Madrid"],
+          correctAnswer: "Paris",
+        },
+        {
+          id: 9,
+          class: "4",
+          subject: "Geography",
+          question: "Which is the largest ocean on Earth?",
+          options: ["Atlantic", "Indian", "Arctic", "Pacific"],
+          correctAnswer: "Pacific",
+        },
+        // Literature questions
+        {
+          id: 10,
+          class: "5",
+          subject: "Literature",
+          question: "Who wrote 'Romeo and Juliet'?",
+          options: ["Charles Dickens", "William Shakespeare", "Jane Austen", "Mark Twain"],
+          correctAnswer: "William Shakespeare",
+        },
+        // Physics questions for higher classes
+        {
+          id: 11,
+          class: "9",
+          subject: "Physics",
+          question: "What is the SI unit of force?",
+          options: ["Joule", "Newton", "Watt", "Pascal"],
+          correctAnswer: "Newton",
+        },
+        // Chemistry questions
+        {
+          id: 12,
+          class: "9",
+          subject: "Chemistry",
+          question: "What is the chemical symbol for gold?",
+          options: ["Ag", "Fe", "Au", "Cu"],
+          correctAnswer: "Au",
+        },
+        // Biology questions
+        {
+          id: 13,
+          class: "9",
+          subject: "Biology",
+          question: "What is the powerhouse of the cell?",
+          options: ["Nucleus", "Mitochondria", "Ribosome", "Golgi apparatus"],
+          correctAnswer: "Mitochondria",
+        },
+        // Computer Science questions
+        {
+          id: 14,
+          class: "7",
+          subject: "Computer Science",
+          question: "What does HTML stand for?",
+          options: ["Hyper Text Markup Language", "High Tech Modern Language", "Hyper Transfer Markup Language", "Hyper Text Modern Language"],
+          correctAnswer: "Hyper Text Markup Language",
+        },
+        // Economics questions
+        {
+          id: 15,
+          class: "10",
+          subject: "Economics",
+          question: "What is the study of how society uses its limited resources?",
+          options: ["Sociology", "Psychology", "Economics", "Anthropology"],
+          correctAnswer: "Economics",
+        },
+      ]
+      localStorage.setItem("quiz_questions", JSON.stringify(sampleQuestions))
+      setQuestions(sampleQuestions)
+    } else {
+      setQuestions(storedQuestions)
+    }
   }, [])
 
   // Handle adding a new question

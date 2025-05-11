@@ -114,13 +114,26 @@ export default function TestInterface({ user, setUser, classLevel, subject, onCo
       })
       localStorage.setItem("leaderboard_data", JSON.stringify(leaderboardData))
 
-      setUser({
+      // Update user data and save to localStorage
+      const updatedUser = {
         ...user,
         tokens: remainingTokens,
         testsCompleted: (user.testsCompleted || 0) + 1,
         averageScore: user.averageScore ? Math.round((user.averageScore + score) / 2) : score,
         bestSubject: !user.bestSubject ? subject : user.bestSubject,
-      })
+      }
+      setUser(updatedUser)
+      
+      // Save to localStorage
+      localStorage.setItem("telegram_quiz_user", JSON.stringify(updatedUser))
+      
+      // Update in all users list
+      const allUsers = JSON.parse(localStorage.getItem("telegram_quiz_all_users") || "[]")
+      const userIndex = allUsers.findIndex((u: any) => u.id === user.id)
+      if (userIndex >= 0) {
+        allUsers[userIndex] = updatedUser
+        localStorage.setItem("telegram_quiz_all_users", JSON.stringify(allUsers))
+      }
 
       return
     }
